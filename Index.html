@@ -1,0 +1,1122 @@
+```html
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VANGUARD RED TEAM | Elite Solo Physical & Cyber Adversary Emulation</title>
+  
+  <!-- Inter & JetBrains Mono Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            tactical: {
+              black: '#07090e',
+              deep: '#0b0f17',
+              dark: '#111722',
+              card: '#151d2c',
+              cardHover: '#1c2638',
+              border: '#1e293b',
+              borderLight: '#334155',
+              crimson: '#e11d48',
+              crimsonHover: '#be123c',
+              crimsonGlow: 'rgba(225, 29, 72, 0.25)',
+              emerald: '#10b981',
+              emeraldMuted: 'rgba(16, 185, 129, 0.15)',
+              cyan: '#06b6d4',
+              amber: '#f59e0b',
+              subtle: '#64748b'
+            }
+          },
+          fontFamily: {
+            mono: ['"JetBrains Mono"', 'monospace'],
+            sans: ['"Inter"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Tactical Scanlines & Grid Aesthetics */
+    .bg-grid-cyber {
+      background-size: 36px 36px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    }
+    
+    .hud-box-glow {
+      box-shadow: 0 0 25px -4px rgba(225, 29, 72, 0.2), 0 0 10px -2px rgba(225, 29, 72, 0.1);
+    }
+    
+    .hud-box-glow-emerald {
+      box-shadow: 0 0 25px -4px rgba(16, 185, 129, 0.2);
+    }
+
+    .corner-brackets {
+      position: relative;
+    }
+    .corner-brackets::before, .corner-brackets::after {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-color: #e11d48;
+      pointer-events: none;
+      z-index: 20;
+    }
+    .corner-brackets::before {
+      top: -1px; left: -1px;
+      border-top: 2px solid;
+      border-left: 2px solid;
+    }
+    .corner-brackets::after {
+      bottom: -1px; right: -1px;
+      border-bottom: 2px solid;
+      border-right: 2px solid;
+    }
+
+    .vignette-overlay {
+      background: linear-gradient(180deg, rgba(11,15,23,0) 0%, rgba(11,15,23,0.85) 75%, rgba(11,15,23,0.98) 100%);
+    }
+
+    /* Subtle custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #07090e;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #e11d48;
+    }
+  </style>
+</head>
+
+<body class="bg-tactical-black text-slate-200 font-sans selection:bg-tactical-crimson selection:text-white antialiased min-h-screen flex flex-col">
+
+  <!-- Interactive Client-Side Photo Ingestion Bar -->
+  <aside aria-label="Tactical Photo Loader" class="bg-tactical-deep border-b border-tactical-border/90 px-4 py-2.5 text-xs font-mono relative z-50">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <span class="relative flex h-2.5 w-2.5">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+        </span>
+        <div class="flex items-center gap-2">
+          <span class="text-slate-400 font-bold">SYSTEM STATUS:</span>
+          <span class="text-emerald-400 font-semibold tracking-wider">TACTICAL INTAKE ACTIVE // SOLO OPERATOR DEPLOYABLE</span>
+        </div>
+      </div>
+
+      <!-- Quick Upload & Auto-Match -->
+      <div class="flex items-center gap-2">
+        <span class="hidden sm:inline text-slate-400 text-[11px]">Previewing local images?</span>
+        <label for="directPhotoInput" class="cursor-pointer bg-tactical-crimson/15 hover:bg-tactical-crimson text-rose-300 hover:text-white border border-tactical-crimson/60 px-3 py-1.5 rounded transition duration-150 flex items-center gap-2 shadow-sm font-semibold tracking-wide">
+          <i class="fa-solid fa-cloud-arrow-up text-xs"></i>
+          <span id="uploadButtonLabel">Load My 5 Photos Instantly</span>
+        </label>
+        <input type="file" id="directPhotoInput" multiple accept="image/*" class="hidden">
+      </div>
+    </div>
+  </aside>
+
+  <header class="sticky top-0 z-40 bg-tactical-black/90 backdrop-blur-md border-b border-tactical-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-3.5 group">
+        <div class="w-10 h-10 rounded bg-tactical-crimson/10 border border-tactical-crimson flex items-center justify-center text-tactical-crimson group-hover:bg-tactical-crimson group-hover:text-white transition duration-200">
+          <i class="fa-solid fa-shield-halved text-lg"></i>
+        </div>
+        <div>
+          <span class="font-mono font-black text-xl tracking-wider text-white flex items-center">
+            VANGUARD<span class="text-tactical-crimson">.RED</span>
+          </span>
+          <span class="text-[9px] tracking-widest font-mono text-tactical-subtle block uppercase -mt-0.5">Physical & Cyber Penetration Testing</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden lg:flex items-center gap-8 font-mono text-xs tracking-wider">
+        <a href="#mission" class="text-slate-300 hover:text-tactical-crimson transition">// MISSION</a>
+        <a href="#objectives" class="text-slate-300 hover:text-tactical-crimson transition">// OBJECTIVES</a>
+        <a href="#capabilities" class="text-slate-300 hover:text-tactical-crimson transition">// OPERATOR</a>
+        <a href="#gallery" class="text-slate-300 hover:text-tactical-crimson transition">// FIELD INTEL</a>
+        <a href="#killchain" class="text-slate-300 hover:text-tactical-crimson transition">// KILL CHAIN</a>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-3">
+        <button onclick="openPgpModal()" class="hidden sm:inline-flex items-center gap-2 border border-tactical-border bg-tactical-dark hover:border-slate-400 px-3 py-2 rounded text-xs font-mono text-slate-300 transition duration-150">
+          <i class="fa-solid fa-key text-emerald-400"></i>
+          <span>PGP KEY</span>
+        </button>
+        <a href="#intake" class="bg-tactical-crimson hover:bg-tactical-crimsonHover text-white font-mono text-xs px-4 py-2.5 rounded font-bold transition flex items-center gap-2 tracking-wider shadow-lg shadow-tactical-crimsonGlow">
+          <i class="fa-solid fa-crosshairs"></i>
+          <span>SCOPING ROE</span>
+        </a>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobileMenuBtn" onclick="toggleMobileNav()" class="lg:hidden p-2 text-slate-400 hover:text-white border border-tactical-border rounded">
+          <i class="fa-solid fa-bars text-lg"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobileNavDrawer" class="hidden lg:hidden bg-tactical-dark border-b border-tactical-border px-4 py-5 font-mono text-xs space-y-4">
+      <a href="#mission" onclick="toggleMobileNav()" class="block text-slate-300 hover:text-tactical-crimson">// MISSION & PURPOSE</a>
+      <a href="#objectives" onclick="toggleMobileNav()" class="block text-slate-300 hover:text-tactical-crimson">// MISSION OBJECTIVES</a>
+      <a href="#capabilities" onclick="toggleMobileNav()" class="block text-slate-300 hover:text-tactical-crimson">// OPERATOR ADVANTAGE</a>
+      <a href="#gallery" onclick="toggleMobileNav()" class="block text-slate-300 hover:text-tactical-crimson">// RECON GALLERY</a>
+      <a href="#killchain" onclick="toggleMobileNav()" class="block text-slate-300 hover:text-tactical-crimson">// KILL CHAIN METHODOLOGY</a>
+      <a href="#intake" onclick="toggleMobileNav()" class="block text-tactical-crimson font-bold">// SCOPING ROE INTAKE</a>
+      <button onclick="toggleMobileNav(); openPgpModal();" class="text-emerald-400 flex items-center gap-2 pt-2 border-t border-tactical-border w-full text-left">
+        <i class="fa-solid fa-key"></i> VIEW PUBLIC PGP KEY
+      </button>
+    </div>
+  </header>
+
+  <main class="flex-grow">
+    <section class="relative bg-grid-cyber py-16 lg:py-24 overflow-hidden border-b border-tactical-border">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <!-- Hero Copy -->
+          <div class="lg:col-span-7 space-y-6">
+            
+            <div class="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-tactical-dark border border-tactical-border text-xs font-mono">
+              <span class="h-2 w-2 rounded-full bg-tactical-crimson animate-pulse"></span>
+              <span class="text-slate-300">SOLO ADVERSARY EMULATION</span>
+              <span class="text-slate-500">//</span>
+              <span class="text-tactical-crimson font-bold">PACIFIC NW & DEPLOYABLE</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.12]">
+              REAL ADVERSARIES DON'T FILL OUT <span class="text-transparent bg-clip-text bg-gradient-to-r from-tactical-crimson via-rose-500 to-rose-400">COMPLIANCE FORMS.</span>
+            </h1>
+
+            <p class="text-base sm:text-lg text-slate-300 font-light leading-relaxed max-w-2xl">
+              We test what security policies assume is already safe. Providing elite, single-operator physical perimeter bypass, covert urban pretexting, and on-site hardware implants without corporate bloat or junior analyst hand-offs.
+            </p>
+
+            <!-- Live Quote / Terminal Snippet -->
+            <div class="bg-tactical-deep border-l-4 border-tactical-crimson border-y border-r border-tactical-border p-4 rounded-r font-mono text-xs text-slate-300 space-y-1">
+              <div class="text-slate-400 flex items-center justify-between">
+                <span>[OPERATIONAL PHILOSOPHY]</span>
+                <span class="text-tactical-crimson">CONFIDENTIAL</span>
+              </div>
+              <p class="text-slate-200 italic font-sans text-sm pt-1">
+                "A five-million dollar next-gen firewall cannot prevent a physical adversary dressed in utility attire from walking through your side door with a duplicated RFID badge and planting an active LTE dropbox."
+              </p>
+            </div>
+
+            <!-- Action CTAs -->
+            <div class="flex flex-wrap items-center gap-4 pt-2">
+              <a href="#intake" class="px-6 py-3.5 rounded bg-tactical-crimson hover:bg-tactical-crimsonHover text-white font-mono font-bold text-xs tracking-wider flex items-center gap-2.5 transition shadow-lg shadow-tactical-crimsonGlow">
+                <i class="fa-solid fa-file-shield text-sm"></i>
+                <span>INITIATE SCOPING ROE</span>
+              </a>
+              <a href="#gallery" class="px-6 py-3.5 rounded bg-tactical-dark hover:bg-slate-800 border border-tactical-border hover:border-slate-500 text-slate-200 font-mono text-xs tracking-wider transition flex items-center gap-2">
+                <i class="fa-solid fa-binoculars text-slate-400"></i>
+                <span>VIEW FIELD INTEL</span>
+              </a>
+            </div>
+
+            <!-- Quick Metrics -->
+            <div class="grid grid-cols-3 gap-4 pt-6 border-t border-tactical-border font-mono text-left">
+              <div>
+                <div class="text-2xl font-black text-white">100%</div>
+                <div class="text-[11px] text-slate-400">Solo Senior Execution</div>
+              </div>
+              <div>
+                <div class="text-2xl font-black text-tactical-crimson">0%</div>
+                <div class="text-[11px] text-slate-400">Subcontracted Juniors</div>
+              </div>
+              <div>
+                <div class="text-2xl font-black text-emerald-400">360°</div>
+                <div class="text-[11px] text-slate-400">Physical-to-Digital Scope</div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Hero Image Profile Card: 1000140674.jpg -->
+          <div class="lg:col-span-5">
+            <div class="corner-brackets bg-tactical-card border border-tactical-border rounded-lg p-2.5 hud-box-glow">
+              <div class="relative aspect-[4/5] rounded overflow-hidden bg-tactical-deep flex items-center justify-center">
+                
+                <!-- Target Image Reference -->
+                <img 
+                  src="1000140674.jpg" 
+                  data-img-target="1000140674.jpg"
+                  alt="Lead Penetration Tester Field Recon - Seattle" 
+                  class="photo-target w-full h-full object-cover object-center"
+                  onerror="applyTacticalPlaceholder(this, 'LEAD RECON OPERATOR // SEATTLE', '1000140674.jpg');"
+                />
+
+                <!-- High-Tech Tactical HUD Overlay -->
+                <div class="absolute inset-0 vignette-overlay flex flex-col justify-between p-5 pointer-events-none">
+                  
+                  <div class="flex items-center justify-between text-[11px] font-mono">
+                    <span class="bg-tactical-crimson text-white px-2 py-0.5 rounded font-bold tracking-widest text-[10px]">OPERATIVE: APEX-SOLO</span>
+                    <span class="bg-tactical-black/80 border border-tactical-border text-emerald-400 px-2 py-0.5 rounded">STATUS: FIELD READY</span>
+                  </div>
+
+                  <div class="space-y-2 pointer-events-auto">
+                    <div class="text-[10px] font-mono text-emerald-400 flex items-center gap-1.5">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                      <span>GEO: PACIFIC NORTHWEST SECTOR (SEATTLE TOWER)</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white tracking-wide">LEAD PENETRATION TESTER</h3>
+                    <p class="text-xs text-slate-300 font-mono">
+                      Specialist in Covert Physical Ingress, Lock Bypass & Converged Attack Paths.
+                    </p>
+                    
+                    <div class="pt-2 flex flex-wrap gap-1.5">
+                      <span class="text-[10px] bg-tactical-black/90 border border-tactical-border text-slate-300 px-2 py-0.5 rounded font-mono">RFID HARVESTING</span>
+                      <span class="text-[10px] bg-tactical-black/90 border border-tactical-border text-slate-300 px-2 py-0.5 rounded font-mono">SOCIAL PRETEXTING</span>
+                      <span class="text-[10px] bg-tactical-black/90 border border-tactical-border text-slate-300 px-2 py-0.5 rounded font-mono">C2 HARDWARE IMPLANTS</span>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <!-- Footer Label for File Identity -->
+              <div class="mt-2 px-3 py-2 bg-tactical-deep rounded border border-tactical-border/70 flex items-center justify-between font-mono text-[11px] text-slate-400">
+                <span class="flex items-center gap-1.5">
+                  <i class="fa-solid fa-camera text-tactical-crimson"></i>
+                  <span>FILE: 1000140674.jpg</span>
+                </span>
+                <span class="text-tactical-crimson font-bold">SOLO RECON LEAD</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="mission" class="py-20 bg-tactical-black border-b border-tactical-border relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Section Header -->
+        <div class="max-w-3xl mb-14">
+          <div class="text-tactical-crimson font-mono text-xs font-bold tracking-widest uppercase">// CORE MANDATE & ETHOS</div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">BRAND MISSION & PURPOSE</h2>
+          <div class="h-1 w-20 bg-tactical-crimson mt-3 mb-6"></div>
+          <p class="text-lg text-slate-300 font-light leading-relaxed">
+            Most organizations possess theoretical security policies; few understand how those policies perform against a focused, physically present human adversary. Our mission is clear:
+          </p>
+          <div class="mt-4 p-5 rounded-lg bg-tactical-card border-l-4 border-tactical-crimson border-y border-r border-tactical-border">
+            <blockquote class="text-slate-100 font-medium text-base sm:text-lg italic font-serif">
+              "To deliver uncompromised, full-spectrum adversary emulation that stress-tests physical, human, and digital defenses—empowering organizations to identify and eliminate security blind spots before motivated threat actors can exploit them."
+            </blockquote>
+          </div>
+        </div>
+
+        <!-- The 4 Operational Pillars Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          
+          <!-- Pillar 1 -->
+          <div class="bg-tactical-card border border-tactical-border rounded-lg p-6 hover:border-tactical-crimson transition duration-200 flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded bg-tactical-crimson/10 border border-tactical-crimson text-tactical-crimson flex items-center justify-center font-mono font-bold text-lg mb-4">
+                01
+              </div>
+              <h3 class="text-white font-bold text-lg mb-2">Zero Assumptions</h3>
+              <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                Defenses are evaluated strictly by real-world physical verification and practical bypass, never theoretical checklist compliance or policy binders.
+              </p>
+            </div>
+            <div class="mt-6 pt-3 border-t border-tactical-border/70 text-[11px] font-mono text-tactical-crimson">
+              VERIFIED BREACH PATHWAYS
+            </div>
+          </div>
+
+          <!-- Pillar 2 -->
+          <div class="bg-tactical-card border border-tactical-border rounded-lg p-6 hover:border-emerald-500 transition duration-200 flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded bg-emerald-500/10 border border-emerald-500 text-emerald-400 flex items-center justify-center font-mono font-bold text-lg mb-4">
+                02
+              </div>
+              <h3 class="text-white font-bold text-lg mb-2">Converged Ingress</h3>
+              <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                Perimeter fence breaches, social engineering, and technical pivot attacks are chained together sequentially rather than assessed in isolated academic silos.
+              </p>
+            </div>
+            <div class="mt-6 pt-3 border-t border-tactical-border/70 text-[11px] font-mono text-emerald-400">
+              END-TO-END KILL CHAIN
+            </div>
+          </div>
+
+          <!-- Pillar 3 -->
+          <div class="bg-tactical-card border border-tactical-border rounded-lg p-6 hover:border-cyan-500 transition duration-200 flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded bg-cyan-500/10 border border-cyan-500 text-cyan-400 flex items-center justify-center font-mono font-bold text-lg mb-4">
+                03
+              </div>
+              <h3 class="text-white font-bold text-lg mb-2">Absolute Discretion</h3>
+              <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                All physical reconnaissance, surveillance logs, and intrusive testing are conducted under ironclad non-disclosure, with direct emergency de-confliction channels.
+              </p>
+            </div>
+            <div class="mt-6 pt-3 border-t border-tactical-border/70 text-[11px] font-mono text-cyan-400">
+              DIRECT POINT OF CONTACT
+            </div>
+          </div>
+
+          <!-- Pillar 4 -->
+          <div class="bg-tactical-card border border-tactical-border rounded-lg p-6 hover:border-amber-500 transition duration-200 flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded bg-amber-500/10 border border-amber-500 text-amber-400 flex items-center justify-center font-mono font-bold text-lg mb-4">
+                04
+              </div>
+              <h3 class="text-white font-bold text-lg mb-2">Remediation-First</h3>
+              <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                The objective is never to brag about a breach. Every vulnerability is matched with practical, budget-conscious engineering fixes your Blue Team can execute immediately.
+              </p>
+            </div>
+            <div class="mt-6 pt-3 border-t border-tactical-border/70 text-[11px] font-mono text-amber-400">
+              DEFENSIVE HARDENING ROI
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section id="objectives" class="py-20 bg-tactical-deep border-b border-tactical-border">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+          <div>
+            <span class="text-emerald-400 font-mono text-xs font-bold tracking-widest uppercase">// SOW & PROPOSAL FRAMEWORK</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">STANDARD ENGAGEMENT OBJECTIVES</h2>
+          </div>
+          <p class="text-slate-400 text-xs sm:text-sm max-w-md font-mono">
+            Modular objective blocks ready to be authorized within your tailored Rules of Engagement (ROE).
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <!-- OBJ-01 -->
+          <div class="bg-tactical-card border border-tactical-border rounded-xl p-6 hover:border-tactical-crimson transition duration-150">
+            <div class="flex items-center justify-between pb-3 border-b border-tactical-border">
+              <span class="font-mono text-tactical-crimson font-bold text-xs bg-tactical-crimson/15 px-2.5 py-1 rounded border border-tactical-crimson/40">OBJ-01 // PHYSICAL INGRESS</span>
+              <span class="text-xs font-mono text-slate-400"><i class="fa-solid fa-lock-open text-tactical-crimson mr-1.5"></i> PERIMETER BREACH</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mt-4 mb-2">Perimeter Ingress & Access Control Testing</h3>
+            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4">
+              Evaluate real-world perimeter barriers, turnstiles, loading docks, fire escape egresses, and badge verification systems under active stealth conditions.
+            </p>
+            <div class="space-y-2 text-xs font-mono text-slate-400 bg-tactical-dark p-3.5 rounded border border-tactical-border/60">
+              <div class="flex items-start gap-2">
+                <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+                <span>RFID / HID Proxmark cloning & credential duplication in field.</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+                <span>Non-destructive entry: latch shims, under-door tools, Rex bypass.</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+                <span>Tailgating tolerance audit and security patrol gap analysis.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- OBJ-02 -->
+          <div class="bg-tactical-card border border-tactical-border rounded-xl p-6 hover:border-tactical-crimson transition duration-150">
+            <div class="flex items-center justify-between pb-3 border-b border-tactical-border">
+              <span class="font-mono text-tactical-crimson font-bold text-xs bg-tactical-crimson/15 px-2.5 py-1 rounded border border-tactical-crimson/40">OBJ-02 // HUMAN FACTOR</span>
+              <span class="text-xs font-mono text-slate-400"><i class="fa-solid fa-user-secret text-tactical-crimson mr-1.5"></i> PRETEXTING TOLERANCE</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mt-4 mb-2">On-Site Social Engineering & Pretexting</h3>
+            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4">
+              Test whether front-desk reception, security guards, and internal personnel adhere to identity verification procedures or succumb to realistic pretexts.
+            </p>
+            <div class="space-y-2 text-xs font-mono text-slate-400 bg-tactical-dark p-3.5 rounded border border-tactical-border/60">
+              <div class="flex items-start gap-2">
+                <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+                <span>Utility technician, vendor, fire inspector, or delivery disguise.</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+                <span>Gaining unescorted physical clearance into restricted corporate zones.</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+                <span>Employee challenge response metrics and protocol audit.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- OBJ-03 -->
+          <div class="bg-tactical-card border border-tactical-border rounded-xl p-6 hover:border-tactical-crimson transition duration-150">
+            <div class="flex items-center justify-between pb-3 border-b border-tactical-border">
+              <span class="font-mono text-tactical-crimson font-bold text-xs bg-tactical-crimson/15 px-2.5 py-1 rounded border border-tactical-crimson/40">OBJ-03 // HARDWARE DROPBOX</span>
+              <span class="text-xs font-mono text-slate-400"><i class="fa-solid fa-network-wired text-tactical-crimson mr-1.5"></i> NETWORK IMPLANT</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mt-4 mb-2">Internal Network Implant & Pivot Ingress</h3>
+            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4">
+              Physically attach rogue dropboxes or covert out-of-band hardware into internal wall jacks, conference rooms, or server rack switches.
+            </p>
+            <div class="space-y-2 text-xs font-mono text-slate-400 bg-tactical-dark p-3.5 rounded border border-tactical-border/60">
+              <div class="flex items-start gap-2">
+                <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+                <span>4G/LTE cellular dropboxes bypassing external perimeter firewalls.</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+                <span>Testing Network Access Control (802.1X NAC) evasion & rogue MAC cloning.</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+                <span>Rogue Wi-Fi bridge establishment inside server rooms and telecom closets.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- OBJ-04 -->
+          <div class="bg-tactical-card border border-tactical-border rounded-xl p-6 hover:border-tactical-crimson transition duration-150">
+            <div class="flex items-center justify-between pb-3 border-b border-tactical-border">
+              <span class="font-mono text-tactical-crimson font-bold text-xs bg-tactical-crimson/15 px-2.5 py-1 rounded border border-tactical-crimson/40">OBJ-04 // PROOF OF CONCEPT</span>
+              <span class="text-xs font-mono text-slate-400"><i class="fa-solid fa-trophy text-tactical-crimson mr-1.5"></i> CROWN JEWEL ACCESS</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mt-4 mb-2">Crown Jewel Target Capture & Exfiltration</h3>
+            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4">
+              Locating, photographing, and proving physical compromise of high-value client assets without damaging operational infrastructure.
+            </p>
+            <div class="space-y-2 text-xs font-mono text-slate-400 bg-tactical-dark p-3.5 rounded border border-tactical-border/60">
+              <div class="flex items-start gap-2">
+                <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+                <span>Access to executive offices, server racks, safes, or backup media.</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+                <span>Demonstrating data extraction paths without exposing live sensitive PII.</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+                <span>Measuring Blue Team MTTD (Time to Detect) and MTTR (Response).</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section id="capabilities" class="py-20 bg-tactical-black border-b border-tactical-border">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="max-w-3xl mb-12">
+          <span class="text-tactical-crimson font-mono text-xs font-bold tracking-widest uppercase">// HUMAN CAPABILITY DOSSIER</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">THE SOLO OPERATOR ADVANTAGE</h2>
+          <p class="text-slate-400 text-sm mt-2">
+            Real physical adversary operations require physical conditioning, chameleon-like urban adaptation, and rapid technical execution.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+          <!-- Operator Card 1: Physical Readiness & Barrier Breach (1000146923.jpg) -->
+          <div class="bg-tactical-card border border-tactical-border rounded-xl overflow-hidden flex flex-col hover:border-slate-500 transition duration-200">
+            <div class="relative aspect-[3/4] bg-tactical-deep">
+              <img 
+                src="1000146923.jpg" 
+                data-img-target="1000146923.jpg"
+                alt="Physical Conditioning & Ingress Agility" 
+                class="photo-target w-full h-full object-cover object-top"
+                onerror="applyTacticalPlaceholder(this, 'PHYSICAL READINESS & BARRIER BREACH', '1000146923.jpg');"
+              />
+              <div class="absolute top-3 left-3 bg-tactical-black/85 px-2.5 py-1 rounded border border-tactical-border text-[10px] font-mono text-rose-400">
+                VECTOR: PHYSICAL ATHLETICISM
+              </div>
+            </div>
+            
+            <div class="p-6 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 class="text-lg font-bold text-white mb-2">Barrier Bypass & Ingress Agility</h3>
+                <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                  Physical security testing is an athletic discipline. Scaling 10-foot perimeter fences, traversing false drop-ceilings, subverting mechanical roof hatches, and operating in tight mechanical spaces require peak physical conditioning.
+                </p>
+              </div>
+              <div class="mt-5 pt-3 border-t border-tactical-border text-xs font-mono text-tactical-crimson flex items-center justify-between">
+                <span>FILE: 1000146923.jpg</span>
+                <i class="fa-solid fa-person-running"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Operator Card 2: Urban Pretexting & Social Engineering (1000140678.jpg) -->
+          <div class="bg-tactical-card border border-tactical-border rounded-xl overflow-hidden flex flex-col hover:border-slate-500 transition duration-200">
+            <div class="relative aspect-[3/4] bg-tactical-deep">
+              <img 
+                src="1000140678.jpg" 
+                data-img-target="1000140678.jpg"
+                alt="Urban Pretexting & Blending" 
+                class="photo-target w-full h-full object-cover object-center"
+                onerror="applyTacticalPlaceholder(this, 'URBAN CAMO & SOCIAL ENGINEERING', '1000140678.jpg');"
+              />
+              <div class="absolute top-3 left-3 bg-tactical-black/85 px-2.5 py-1 rounded border border-tactical-border text-[10px] font-mono text-cyan-400">
+                VECTOR: SOCIAL PRETEXTING
+              </div>
+            </div>
+            
+            <div class="p-6 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 class="text-lg font-bold text-white mb-2">Chameleon Pretexting & Blending</h3>
+                <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                  The most lethal penetration tester hides in plain sight. Blending into high-density urban environments, disarming security guards with casual psychological pretexts, and maneuvering through populated corporate plazas undetected.
+                </p>
+              </div>
+              <div class="mt-5 pt-3 border-t border-tactical-border text-xs font-mono text-cyan-400 flex items-center justify-between">
+                <span>FILE: 1000140678.jpg</span>
+                <i class="fa-solid fa-masks-theater"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Operator Card 3: High-Rise Ingress & Commercial Targets (52bb59fd-a279-4dea-ab0c-af3070f109aa-1_all_2666.jpg) -->
+          <div class="bg-tactical-card border border-tactical-border rounded-xl overflow-hidden flex flex-col hover:border-slate-500 transition duration-200">
+            <div class="relative aspect-[3/4] bg-tactical-deep">
+              <img 
+                src="52bb59fd-a279-4dea-ab0c-af3070f109aa-1_all_2666.jpg" 
+                data-img-target="52bb59fd-a279-4dea-ab0c-af3070f109aa-1_all_2666.jpg"
+                alt="Corporate High-Rise Target Recon" 
+                class="photo-target w-full h-full object-cover object-center"
+                onerror="applyTacticalPlaceholder(this, 'HIGH-RISE ARCHITECTURAL INGRESS', '52bb59fd...jpg');"
+              />
+              <div class="absolute top-3 left-3 bg-tactical-black/85 px-2.5 py-1 rounded border border-tactical-border text-[10px] font-mono text-emerald-400">
+                VECTOR: COMMERCIAL SKYSCRAPER
+              </div>
+            </div>
+            
+            <div class="p-6 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 class="text-lg font-bold text-white mb-2">High-Rise Architectural Ingress</h3>
+                <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                  Multi-tenant corporate high-rises are notorious for fragmented security ownership. We exploit shared elevator banks, loading bays, contractor access badges, and skybridge corridors to reach private executive suites.
+                </p>
+              </div>
+              <div class="mt-5 pt-3 border-t border-tactical-border text-xs font-mono text-emerald-400 flex items-center justify-between">
+                <span>FILE: 52bb59fd-...jpg</span>
+                <i class="fa-solid fa-building"></i>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section id="gallery" class="py-20 bg-tactical-deep border-b border-tactical-border">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+          <div>
+            <span class="text-emerald-400 font-mono text-xs font-bold tracking-widest uppercase">// EVIDENCE ARCHIVE</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">FIELD RECONNAISSANCE INTEL</h2>
+          </div>
+          <div class="text-xs font-mono text-slate-400">
+            SHOWCASING ALL FIVE AUTHORIZED FACILITY RECON PHOTOS
+          </div>
+        </div>
+
+        <!-- 5-Card Visual Recon Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <!-- Recon Slot 1: Seattle Space Needle (1000140674.jpg) -->
+          <div class="bg-tactical-card border border-tactical-border rounded-lg overflow-hidden group">
+            <div class="relative aspect-[4/3] bg-tactical-black overflow-hidden">
+              <img 
+                src="1000140674.jpg" 
+                data-img-target="1000140674.jpg"
+                alt="Seattle Tower Surveillance" 
+                class="photo-target w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                onerror="applyTacticalPlaceholder(this, 'SEATTLE TOWER OPERATIVE RECON', '1000140674.jpg');"
+              />
+              <div class="absolute bottom-2 left-2 bg-tactical-black/80 px-2 py-0.5 rounded text-[10px] font-mono text-emerald-400">
+                LOC: SEATTLE (SPACE NEEDLE SECTOR)
+              </div>
+            </div>
+            <div class="p-4 font-mono text-xs">
+              <div class="text-white font-bold flex items-center justify-between mb-1">
+                <span>INTEL-01: ONSITE LEAD RECON</span>
+                <span class="text-tactical-crimson">1000140674.jpg</span>
+              </div>
+              <p class="text-slate-400 font-sans text-xs">Lead tester establishing direct line-of-sight visual surveillance on urban target perimeters.</p>
+            </div>
+          </div>
+
+          <!-- Recon Slot 2: Barrier Breach Athletic (1000146923.jpg) -->
+          <div class="bg-tactical-card border border-tactical-border rounded-lg overflow-hidden group">
+            <div class="relative aspect-[4/3] bg-tactical-black overflow-hidden">
+              <img 
+                src="1000146923.jpg" 
+                data-img-target="1000146923.jpg"
+                alt="Physical Conditioning & Agility" 
+                class="photo-target w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                onerror="applyTacticalPlaceholder(this, 'PHYSICAL AGILITY & BARRIER BREACH', '1000146923.jpg');"
+              />
+              <div class="absolute bottom-2 left-2 bg-tactical-black/80 px-2 py-0.5 rounded text-[10px] font-mono text-rose-400">
+                VECTOR: PHYSICAL INGRESS
+              </div>
+            </div>
+            <div class="p-4 font-mono text-xs">
+              <div class="text-white font-bold flex items-center justify-between mb-1">
+                <span>INTEL-02: BARRIER BREACH AGILITY</span>
+                <span class="text-tactical-crimson">1000146923.jpg</span>
+              </div>
+              <p class="text-slate-400 font-sans text-xs">Rigorous physical readiness enabling rapid climbing, tight conduit transit, and evasion.</p>
+            </div>
+          </div>
+
+          <!-- Recon Slot 3: Urban Camo Pretexting (1000140678.jpg) -->
+          <div class="bg-tactical-card border border-tactical-border rounded-lg overflow-hidden group">
+            <div class="relative aspect-[4/3] bg-tactical-black overflow-hidden">
+              <img 
+                src="1000140678.jpg" 
+                data-img-target="1000140678.jpg"
+                alt="Urban Pretexting" 
+                class="photo-target w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                onerror="applyTacticalPlaceholder(this, 'URBAN PRETEXTING & BLENDING', '1000140678.jpg');"
+              />
+              <div class="absolute bottom-2 left-2 bg-tactical-black/80 px-2 py-0.5 rounded text-[10px] font-mono text-cyan-400">
+                VECTOR: HUMAN SOCIAL PRETEXT
+              </div>
+            </div>
+            <div class="p-4 font-mono text-xs">
+              <div class="text-white font-bold flex items-center justify-between mb-1">
+                <span>INTEL-03: SOCIAL DECEPTION</span>
+                <span class="text-tactical-crimson">1000140678.jpg</span>
+              </div>
+              <p class="text-slate-400 font-sans text-xs">Chameleon blending and psychological pretexts to bypass reception desks and badges.</p>
+            </div>
+          </div>
+
+          <!-- Recon Slot 4: Modern Glass Skyscraper (52bb59fd-a279-4dea-ab0c-af3070f109aa-1_all_2666.jpg) -->
+          <div class="bg-tactical-card border border-tactical-border rounded-lg overflow-hidden group">
+            <div class="relative aspect-[4/3] bg-tactical-black overflow-hidden">
+              <img 
+                src="52bb59fd-a279-4dea-ab0c-af3070f109aa-1_all_2666.jpg" 
+                data-img-target="52bb59fd-a279-4dea-ab0c-af3070f109aa-1_all_2666.jpg"
+                alt="Commercial High-Rise Target Recon" 
+                class="photo-target w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                onerror="applyTacticalPlaceholder(this, 'HIGH-RISE FACILITY TARGETING', '52bb59fd...jpg');"
+              />
+              <div class="absolute bottom-2 left-2 bg-tactical-black/80 px-2 py-0.5 rounded text-[10px] font-mono text-emerald-400">
+                TARGET: COMMERCIAL HIGH-RISE
+              </div>
+            </div>
+            <div class="p-4 font-mono text-xs">
+              <div class="text-white font-bold flex items-center justify-between mb-1">
+                <span>INTEL-04: TOWER RECONNAISSANCE</span>
+                <span class="text-tactical-crimson">52bb59fd...jpg</span>
+              </div>
+              <p class="text-slate-400 font-sans text-xs">High-rise facade analysis, access points, and shared multi-tenant facility weaknesses.</p>
+            </div>
+          </div>
+
+          <!-- Recon Slot 5: Elevated Rooftop View (1000145597.jpg) -->
+          <div class="bg-tactical-card border border-tactical-border rounded-lg overflow-hidden group md:col-span-2 lg:col-span-2">
+            <div class="relative aspect-[16/9] sm:aspect-[21/9] bg-tactical-black overflow-hidden">
+              <img 
+                src="1000145597.jpg" 
+                data-img-target="1000145597.jpg"
+                alt="Perimeter Elevation & Rooftop Surveillance" 
+                class="photo-target w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                onerror="applyTacticalPlaceholder(this, 'ELEVATION & ROOFTOP SURVEILLANCE', '1000145597.jpg');"
+              />
+              <div class="absolute bottom-2 left-2 bg-tactical-black/80 px-2 py-0.5 rounded text-[10px] font-mono text-amber-400">
+                VECTOR: ROOFTOP & UPPER PERIMETER
+              </div>
+            </div>
+            <div class="p-4 font-mono text-xs">
+              <div class="text-white font-bold flex items-center justify-between mb-1">
+                <span>INTEL-05: ELEVATION & ROOFTOP INGRESS VECTORS</span>
+                <span class="text-tactical-crimson">1000145597.jpg</span>
+              </div>
+              <p class="text-slate-400 font-sans text-xs">Auditing ventilation shafts, rooftop fire escape routes, parking garage ramps, and emergency egress alarms from elevated perimeters.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section id="killchain" class="py-20 bg-tactical-black border-b border-tactical-border">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <span class="text-tactical-crimson font-mono text-xs font-bold tracking-widest uppercase">// METHODOLOGY & EXECUTION</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">THE 5-PHASE ADVERSARY KILL CHAIN</h2>
+          <p class="text-slate-400 text-sm mt-3">
+            Every engagement follows a structured adversary workflow to test physical, social, and digital response capabilities.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+          
+          <!-- Phase 1 -->
+          <div class="bg-tactical-card border border-tactical-border p-5 rounded-lg text-left relative">
+            <div class="text-xs font-mono text-tactical-crimson font-bold mb-1">PHASE 01</div>
+            <h4 class="text-white font-bold text-base mb-2">Recon & OSINT</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Target photography, employee badge badge-design analysis, shift rotations, and building architecture mapping.
+            </p>
+          </div>
+
+          <!-- Phase 2 -->
+          <div class="bg-tactical-card border border-tactical-border p-5 rounded-lg text-left relative">
+            <div class="text-xs font-mono text-emerald-400 font-bold mb-1">PHASE 02</div>
+            <h4 class="text-white font-bold text-base mb-2">Perimeter Ingress</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Exploitation of external doors, lock bypass, tailgating, or cloned RFID card replay to enter the facility undetected.
+            </p>
+          </div>
+
+          <!-- Phase 3 -->
+          <div class="bg-tactical-card border border-tactical-border p-5 rounded-lg text-left relative">
+            <div class="text-xs font-mono text-cyan-400 font-bold mb-1">PHASE 03</div>
+            <h4 class="text-white font-bold text-base mb-2">Internal Implant</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Planting covert 4G/LTE cellular dropboxes or physical keyloggers on authorized network ports and conference rooms.
+            </p>
+          </div>
+
+          <!-- Phase 4 -->
+          <div class="bg-tactical-card border border-tactical-border p-5 rounded-lg text-left relative">
+            <div class="text-xs font-mono text-amber-400 font-bold mb-1">PHASE 04</div>
+            <h4 class="text-white font-bold text-base mb-2">Crown Jewel Pivot</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Navigating internal zones, proving access to server racks, physical paper archives, or executive workstations.
+            </p>
+          </div>
+
+          <!-- Phase 5 -->
+          <div class="bg-tactical-card border border-tactical-border p-5 rounded-lg text-left relative">
+            <div class="text-xs font-mono text-purple-400 font-bold mb-1">PHASE 05</div>
+            <h4 class="text-white font-bold text-base mb-2">Remediation SOW</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Complete debrief with time-stamped video/photo evidence, Blue Team detection review, and defensive hardening plans.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section id="intake" class="py-20 bg-tactical-deep border-b border-tactical-border">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center mb-12">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-tactical-dark border border-tactical-border text-xs font-mono text-tactical-crimson mb-2">
+            <i class="fa-solid fa-lock"></i>
+            <span>CONFIDENTIAL ENGAGEMENT PORTAL</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white">INITIATE MISSION SCOPING (ROE)</h2>
+          <p class="text-slate-400 text-xs sm:text-sm mt-2 font-mono">
+            Authorize operational parameters directly with the Lead Penetration Tester. Strict non-disclosure by default.
+          </p>
+        </div>
+
+        <div class="bg-tactical-card border border-tactical-border rounded-xl p-6 sm:p-8 hud-box-glow">
+          <form id="scopingRoeForm" onsubmit="submitScopingForm(event)" class="space-y-6 font-mono text-xs">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-slate-300 font-bold mb-2 uppercase tracking-wider">Client Identity / Organization</label>
+                <input type="text" required placeholder="e.g., CISO / VP of Security, Pacific FinTech" class="w-full bg-tactical-black border border-tactical-border rounded px-4 py-3 text-slate-200 focus:outline-none focus:border-tactical-crimson transition">
+              </div>
+
+              <div>
+                <label class="block text-slate-300 font-bold mb-2 uppercase tracking-wider">Secure Channel (Signal / Wire / Proton)</label>
+                <input type="text" required placeholder="user@proton.me or Signal Number" class="w-full bg-tactical-black border border-tactical-border rounded px-4 py-3 text-slate-200 focus:outline-none focus:border-tactical-crimson transition">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-slate-300 font-bold mb-2 uppercase tracking-wider">Facility Target Architecture</label>
+                <select class="w-full bg-tactical-black border border-tactical-border rounded px-4 py-3 text-slate-200 focus:outline-none focus:border-tactical-crimson transition">
+                  <option>Commercial Multi-Tenant High-Rise (Seattle / PNW)</option>
+                  <option>Standalone Corporate Headquarters</option>
+                  <option>Data Center / Colocation Server Facility</option>
+                  <option>Industrial Warehouse / Logistics Hub</option>
+                  <option>Executive Private Estate / Remote Branch</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-slate-300 font-bold mb-2 uppercase tracking-wider">Authorized Operational Window</label>
+                <select class="w-full bg-tactical-black border border-tactical-border rounded px-4 py-3 text-slate-200 focus:outline-none focus:border-tactical-crimson transition">
+                  <option>24/7 Full Adversary Emulation (Stealth Unannounced)</option>
+                  <option>Business Hours Social Engineering & Pretexting Only</option>
+                  <option>After-Hours Perimeter Ingress & Mechanical Bypass</option>
+                  <option>Coordinated Purple Team with Defense Notification</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Objective Checkboxes -->
+            <div>
+              <label class="block text-slate-300 font-bold mb-2 uppercase tracking-wider">Objectives to Authorize (ROE Scope)</label>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-slate-300">
+                <label class="flex items-center gap-3 bg-tactical-black p-3 rounded border border-tactical-border cursor-pointer hover:border-slate-500">
+                  <input type="checkbox" checked class="accent-rose-600 rounded">
+                  <span>[OBJ-01] Perimeter & Lock Ingress</span>
+                </label>
+                <label class="flex items-center gap-3 bg-tactical-black p-3 rounded border border-tactical-border cursor-pointer hover:border-slate-500">
+                  <input type="checkbox" checked class="accent-rose-600 rounded">
+                  <span>[OBJ-02] Social Pretexting & Deception</span>
+                </label>
+                <label class="flex items-center gap-3 bg-tactical-black p-3 rounded border border-tactical-border cursor-pointer hover:border-slate-500">
+                  <input type="checkbox" checked class="accent-rose-600 rounded">
+                  <span>[OBJ-03] Covert 4G/LTE Dropbox Implants</span>
+                </label>
+                <label class="flex items-center gap-3 bg-tactical-black p-3 rounded border border-tactical-border cursor-pointer hover:border-slate-500">
+                  <input type="checkbox" checked class="accent-rose-600 rounded">
+                  <span>[OBJ-04] Server Room & Crown Jewel Access</span>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-slate-300 font-bold mb-2 uppercase tracking-wider">Crown Jewel Targets & Restrictions</label>
+              <textarea rows="4" placeholder="Detail any critical assets (e.g., executive floor access, telecom closets), out-of-scope departments, or key operational dates..." class="w-full bg-tactical-black border border-tactical-border rounded px-4 py-3 text-slate-200 focus:outline-none focus:border-tactical-crimson transition"></textarea>
+            </div>
+
+            <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div class="text-[11px] text-slate-500 flex items-center gap-2">
+                <i class="fa-solid fa-shield-halved text-emerald-400"></i>
+                <span>Direct end-to-end encryption. 24-hr response time.</span>
+              </div>
+              <button type="submit" class="w-full sm:w-auto px-8 py-3.5 bg-tactical-crimson hover:bg-tactical-crimsonHover text-white font-bold rounded tracking-wider uppercase transition shadow-lg shadow-tactical-crimsonGlow flex items-center justify-center gap-2.5">
+                <i class="fa-solid fa-paper-plane"></i>
+                <span>TRANSMIT ROE SCOPE</span>
+              </button>
+            </div>
+
+          </form>
+
+          <!-- Interactive Success Notification -->
+          <div id="roeSuccessAlert" class="hidden mt-6 p-4 rounded-lg bg-emerald-950/80 border border-emerald-500 text-emerald-300 font-mono text-xs">
+            <div class="flex items-center gap-2 font-bold mb-1 text-sm">
+              <i class="fa-solid fa-circle-check text-emerald-400"></i>
+              <span>MISSION DOSSIER RECEIVED & QUEUED</span>
+            </div>
+            <p class="text-slate-300">
+              The Lead Penetration Tester has received your parameters. An out-of-band PGP-encrypted response will be routed to your secure contact channel within 24 hours.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-tactical-black border-t border-tactical-border py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded bg-tactical-crimson/10 border border-tactical-crimson flex items-center justify-center text-tactical-crimson">
+            <i class="fa-solid fa-shield-halved text-sm"></i>
+          </div>
+          <div>
+            <span class="font-mono font-bold text-white tracking-wider">VANGUARD RED TEAM</span>
+            <span class="text-[11px] text-slate-500 block font-mono">Independent Physical & Cyber Penetration Testing</span>
+          </div>
+        </div>
+
+        <div class="text-xs font-mono text-slate-500 text-center md:text-right">
+          <div>OPERATIONAL HUB: PACIFIC NORTHWEST // DISPATCH: NATIONWIDE</div>
+          <div class="mt-1">All assessments conducted under signed Authorization & Rules of Engagement.</div>
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
+  <div id="pgpKeyModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-tactical-card border border-tactical-border rounded-xl max-w-xl w-full p-6 shadow-2xl">
+      <div class="flex items-center justify-between pb-3 border-b border-tactical-border mb-4 font-mono">
+        <div class="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+          <i class="fa-solid fa-key"></i>
+          <span>LEAD OPERATOR PUBLIC PGP KEY</span>
+        </div>
+        <button onclick="closePgpModal()" class="text-slate-400 hover:text-white text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="bg-tactical-black p-4 rounded border border-tactical-border font-mono text-[11px] text-slate-300 overflow-x-auto select-all">
+<pre id="pgpKeyPre">-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: Vanguard Red Team Tactical Keyring 2026
+Comment: Lead Operator Solo Fingerprint (Direct Ingress)
+
+mQGNBF/9...VANGUARD...RED...TEAM...OPERATOR...2026
+xj8A39F0B239...FE98B...34AA...EED9...1198...7710
+4B2A...PACIFIC...NORTHWEST...INGRESS...DIRECT...9
+-----END PGP PUBLIC KEY BLOCK-----</pre>
+      </div>
+
+      <div class="mt-4 flex items-center justify-between">
+        <span id="copyConfirmNotice" class="text-xs font-mono text-emerald-400 hidden">
+          <i class="fa-solid fa-check mr-1"></i> Public key copied to clipboard!
+        </span>
+        <div class="flex gap-2 ml-auto">
+          <button onclick="copyPgpKeyContent()" class="px-4 py-2 bg-tactical-crimson hover:bg-tactical-crimsonHover text-white text-xs font-mono rounded font-bold transition flex items-center gap-1.5">
+            <i class="fa-solid fa-copy"></i>
+            <span>Copy PGP</span>
+          </button>
+          <button onclick="closePgpModal()" class="px-4 py-2 bg-tactical-dark border border-tactical-border text-slate-300 text-xs font-mono rounded hover:bg-slate-800 transition">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 1. TACTICAL PLACEHOLDER GENERATOR (If local file is sandboxed before ingestion)
+    function applyTacticalPlaceholder(imgEl, label, filename) {
+      const container = imgEl.parentElement;
+      imgEl.style.display = 'none';
+
+      // Avoid creating duplicates
+      if (container.querySelector('.tactical-placeholder-card')) return;
+
+      const placeholder = document.createElement('div');
+      placeholder.className = 'tactical-placeholder-card w-full h-full flex flex-col items-center justify-center p-6 text-center bg-gradient-to-b from-tactical-dark to-slate-950 border border-dashed border-rose-900/60 rounded';
+      placeholder.innerHTML = `
+        <div class="w-12 h-12 rounded-full bg-tactical-crimson/15 border border-tactical-crimson flex items-center justify-center text-tactical-crimson mb-3 animate-pulse">
+          <i class="fa-solid fa-crosshairs text-lg"></i>
+        </div>
+        <div class="font-mono text-xs font-bold text-white tracking-wider mb-1">${label}</div>
+        <div class="font-mono text-[10px] text-slate-400 mb-3">TARGET FILE: ${filename}</div>
+        <div class="bg-tactical-crimson/20 border border-tactical-crimson text-rose-300 text-[10px] font-mono px-2.5 py-1 rounded">
+          READY FOR LIVE INGESTION
+        </div>
+      `;
+      container.prepend(placeholder);
+    }
+
+    // 2. CLIENT-SIDE DIRECT PHOTO INGESTION
+    // Matches uploaded files to the respective img elements via data-img-target
+    document.getElementById('directPhotoInput').addEventListener('change', function(e) {
+      const files = Array.from(e.target.files);
+      if (!files.length) return;
+
+      const allTargetImgs = document.querySelectorAll('.photo-target');
+      let matchedCount = 0;
+
+      files.forEach(file => {
+        const objectUrl = URL.createObjectURL(file);
+        
+        allTargetImgs.forEach(img => {
+          const targetName = img.getAttribute('data-img-target');
+          
+          // Match by exact filename or partial identifier
+          if (targetName && (file.name === targetName || file.name.includes(targetName) || files.length === 1)) {
+            img.src = objectUrl;
+            img.style.display = 'block';
+            
+            // Remove any placeholder if displayed
+            const placeholder = img.parentElement.querySelector('.tactical-placeholder-card');
+            if (placeholder) placeholder.remove();
+            
+            matchedCount++;
+          }
+        });
+      });
+
+      // Update button text
+      const uploadLabel = document.getElementById('uploadButtonLabel');
+      if (uploadLabel) {
+        uploadLabel.textContent = `Photos Ingested (${matchedCount || files.length} active)`;
+      }
+    });
+
+    // 3. PGP MODAL HANDLERS
+    function openPgpModal() {
+      const modal = document.getElementById('pgpKeyModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closePgpModal() {
+      const modal = document.getElementById('pgpKeyModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function copyPgpKeyContent() {
+      const keyText = document.getElementById('pgpKeyPre').innerText;
+      
+      // Iframe-safe fallback copy execution
+      const tempArea = document.createElement('textarea');
+      tempArea.value = keyText;
+      document.body.appendChild(tempArea);
+      tempArea.select();
+      
+      try {
+        document.execCommand('copy');
+        const alertSpan = document.getElementById('copyConfirmNotice');
+        alertSpan.classList.remove('hidden');
+        setTimeout(() => alertSpan.classList.add('hidden'), 3000);
+      } catch (err) {
+        console.error('Failed to copy text: ', err);
+      }
+      document.body.removeChild(tempArea);
+    }
+
+    // 4. MOBILE NAVIGATION TOGGLE
+    function toggleMobileNav() {
+      const nav = document.getElementById('mobileNavDrawer');
+      nav.classList.toggle('hidden');
+    }
+
+    // 5. ROE SCOPING FORM SUBMISSION SIMULATION
+    function submitScopingForm(event) {
+      event.preventDefault();
+      const alertBox = document.getElementById('roeSuccessAlert');
+      alertBox.classList.remove('hidden');
+      event.target.reset();
+      
+      alertBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  </script>
+</body>
+</html>
+```
